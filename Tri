@@ -1,0 +1,12 @@
+code tri pour classer les sorcier par lvl de courage
+
+        ArrayList<Sorcier> tousLesSorcier = new ArrayList<>();
+
+        for (Maison maison : this.ecole)
+        {
+            tousLesSorcier.addAll(maison.getListeSorcier());
+        }
+
+        tousLesSorcier.sort(Comparator.comparingInt(Sorcier::getCourage));
+        
+        return tousLesSorcier;
