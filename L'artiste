@@ -1,0 +1,60 @@
+  private Pane fenetreJeu() {
+    // Récupération du texte du niveau selon le niveau choisi dans MotMystere
+    String texteNiveau = "";
+    switch (modelePendu.getNiveau()) {
+        case MotMystere.FACILE:
+            texteNiveau = "Facile";
+            break;
+        case MotMystere.MOYEN:
+            texteNiveau = "Moyen";
+            break;
+        case MotMystere.DIFFICILE:
+            texteNiveau = "Difficile";
+            break;
+        case MotMystere.EXPERT:
+            texteNiveau = "Expert";
+            break;
+        default:
+            texteNiveau = "Inconnu";
+    }
+
+    leNiveau = new Text("Niveau : " + texteNiveau);
+    leNiveau.setFont(Font.font(20));
+
+    motCrypte = new Text();
+    motCrypte.setFont(Font.font("Consolas", 48));
+    motCrypte.setWrappingWidth(600);
+    motCrypte.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+
+    dessin = new ImageView();
+    dessin.setFitHeight(200);
+    dessin.setPreserveRatio(true);
+    dessin.setImage(lesImages.get(0));
+
+    barreProgression = new ProgressBar(0);
+
+
+    // Clavier avec contrôleur
+    ControleurLettres controleurLettres = new ControleurLettres(modelePendu, this);
+    clavier = new Clavier("ABCDEFGHIJKLMNOPQRSTUVWXYZ-", controleurLettres);
+
+    Button nouveauMot = new Button("Nouveau mot");
+    nouveauMot.setOnAction(e -> {
+        modelePendu.nouvellePartie();
+        majAffichage();
+    });
+
+    VBox centre = new VBox(15, motCrypte, dessin, barreProgression, clavier);
+    centre.setAlignment(Pos.TOP_CENTER);
+    centre.setPadding(new Insets(10));
+
+    VBox droit = new VBox(15, leNiveau, leChrono(), nouveauMot);
+    droit.setAlignment(Pos.TOP_CENTER);
+    droit.setPadding(new Insets(10));
+
+    BorderPane res = new BorderPane();
+    res.setCenter(centre);
+    res.setRight(droit);
+
+    return res;
+}
